@@ -1,7 +1,7 @@
 # FLCL
 ## Formal Languages and Compilers Lab
-Ahsanullah University of Science and Technology
-Department of Computer Science and Engineering
-Examination: Assignment 1 Session: Fall 2022
-Year/Semester: 4/1 Course No: CSE4130
+Ahsanullah University of Science and Technology<br>
+Department of Computer Science and Engineering <br>
+Session: Fall 2022<br>
+Year/Semester: 4/1 Course No: CSE4130<br>
 Course Title: Formal Languages and Compilers Lab
