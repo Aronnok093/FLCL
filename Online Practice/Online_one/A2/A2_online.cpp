@@ -14,7 +14,7 @@ int main(){
     printf("Line No. of double numbers declared in: ");
     while((ch=fgetc(fs))!=EOF){
 
-        if(ch=='\n'||ch==';'){
+        if(ch=='\n'){
         cnt++;
         }
         if(ch=='d'){
@@ -23,6 +23,9 @@ int main(){
             tmp[i++]='d';
             while((ch=fgetc(fs))!=EOF&&ch!=' '){
                 tmp[i++]=ch;
+                if(ch=='\n'){
+                cnt++;
+                }
             }
             if(!strcmp("double",tmp)){
                 printf("%d ",cnt);
