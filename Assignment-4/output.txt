@@ -1,0 +1,8 @@
+Duplicate token at 2
+Duplicate token at 2
+Back to back keyword at 4
+Duplicate token at 6
+Unmatched 'else' at 7
+Misplaced '}' at 7
+Unmatched 'else' at 8
+Misplaced '}' at 9
