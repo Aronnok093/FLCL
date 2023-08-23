@@ -23,8 +23,8 @@ for i in range(len(lexemes)):
     else:
         copy_lexemes+=lexemes[i]
         
-#print(copy_lexemes)
-#print()
+print(copy_lexemes)
+print()
 
 #seperate every keyword
 lexemes_list=copy_lexemes.split()
@@ -34,8 +34,8 @@ for items in  lexemes_list:
     if(items in tokenToBeRemove):
         lexemes_list.remove(items)
         
-#print(lexemes_list)
-#print()
+print(lexemes_list)
+print()
 
 scope_flag=0  
 for i in range(len(lexemes_list)):
@@ -50,7 +50,7 @@ for i in range(len(lexemes_list)):
     elif(scope_flag==0):
         scope="global"
     if(lexemes_list[i]=="id" and lexemes_list[i-3] in dataType):
-        #print(lexemes_list[i+1]," ",lexemes_list[i-3])
+        print(lexemes_list[i+1]," ",lexemes_list[i-3])
         if(lexemes_list[i+1]=="main"):
             id_names_withDataType.append(["global",lexemes_list[i+1],lexemes_list[i-3]])
         else:
@@ -77,9 +77,9 @@ for i in range(len(lexemes_list)):
     if(lexemes_list[i]=="id"):
         if(lexemes_list[i+4]=="=" and lexemes_list[i+7]!='id'):
             id_names_withValue.append([scope,lexemes_list[i+1],lexemes_list[i+7]])
-#print(id_names_withValue)
-#print(id_names_withType)
-#print(id_names_withDataType)
+print(id_names_withValue)
+print(id_names_withType)
+print(id_names_withDataType)
 
 sn=0
 for i in range(len(id_names_withDataType)):
@@ -93,8 +93,8 @@ for i in range(len(id_names_withDataType)):
         if(name==id_names_withValue[j][1] and scp==id_names_withValue[j][0]):
                 values=id_names_withValue[j][2];
     symbol_table.append([sn,name,idType,dtType,scp,values])
-#print()
-#print(symbol_table)
+print()
+print(symbol_table)
 file.close()
 
 
