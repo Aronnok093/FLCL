@@ -66,7 +66,7 @@ def assingment1():
 
         single_line_code = ' '.join(filtered_code)
 
-        with open(output_filename, "w") as fw:
+        with open("output.txt", "w") as fw:
             fw.write(single_line_code)
 
         print(single_line_code)
@@ -242,6 +242,7 @@ def assignment4():
         tokens = []
         token = ""
         in_multi_line_comment = False
+        in_for_loop = False  # Flag to indicate if we are inside a for loop
         line = 1
 
         for i in range(len(code)):
@@ -268,18 +269,31 @@ def assignment4():
                         token = ""
                     tokens.append("\n")
                     line += 1
-                elif code[i:i+2] == ";;":
+                    in_for_loop = False  # Reset in_for_loop flag at the end of each line
+                elif code[i:i+2] == ";;" and not in_for_loop:
                     print(f"Duplicate semicolons ';;' at line {line}")
                     i += 1  # Skip the second semicolon
-                elif code[i:i+2] == "}}":
-                    print(f"Duplicate closing curly braces '}}' at line {line}")
-                    i += 1  # Skip the second closing curly brace
+                elif code[i:i+3] == "for":
+                    tokens.append("for")
+                    in_for_loop = True  # Set in_for_loop flag when a for loop is encountered
+                    i += 2  # Skip 'for'
+                    while i < len(code) and code[i] != '(':
+                        token += code[i]
+                        i += 1
+                    token = token.strip()
+                    if not token.endswith(";"):
+                        print(f"Missing semicolon in for loop initializer at line {line}")
+                    tokens.append(token + "(")
+                    token = ""
                 else:
                     token += code[i]
-
+        
         if token:
             tokens.append(token)
         return tokens
+
+
+
 
     def detect_duplicate_keywords(tokens):
         prev_keyword = None
@@ -298,16 +312,27 @@ def assignment4():
         line = 1
         for token in tokens:
             if token == "{":
-                stack.append(("brace", line))
+                stack.append((line, "{"))
             elif token == "}":
                 if not stack:
                     print(f"Unmatched '}}' at line {line}")
-                elif stack[-1][0] == "brace":
-                    stack.pop()
                 else:
-                    print(f"Unmatched '{{' at line {line}")
+                    _, last_token = stack.pop()
+                    if last_token != "{":
+                        print(f"Unmatched '{{' at line {line}")
             elif token == "\n":
                 line += 1
+        
+        for line_num, unclosed_brace in stack:
+            print(f"Unclosed '{{' at line {line_num}")
+
+
+    def print_code_with_line_numbers(code):
+        lines = code.split('\n')
+        line_number_width = len(str(len(lines)))
+
+        for i, line in enumerate(lines, start=1):
+            print(f"{i:>{line_number_width}} | {line}")
 
     def main():
         # Read input from the source file
@@ -317,9 +342,46 @@ def assignment4():
         tokens = tokenize_code(code)
         detect_duplicate_keywords(tokens)
         detect_unbalanced_braces(tokens)
-
+        print()
+        print_code_with_line_numbers(code)
     if __name__ == "__main__":
         main()
+
+def assignment5():
+    def is_valid_cfc(string):
+        stack = []
+        for char in string:
+            if char == 'a':
+                stack.append('a')
+            elif char == 'd':
+                if not stack or stack[-1] != 'a':
+                    return False
+                stack.pop()
+            elif char in ('b', 'c'):
+                if not stack or stack[-1] != 'a':
+                    return False
+            else:
+                return False
+        return not stack
+
+    generated_string = input("Enter CFC ");
+    if is_valid_cfc(generated_string):
+        print("Valid CFG")
+    else:
+        print("Invalid CFG")
+
+    import re
+
+    def is_valid_expression(expression):
+        # Regular expression to match valid C/C++ expressions
+        pattern = r'^\s*([a-zA-Z_]\w*\s*=\s*)?[\w\s()+\-*/%^]+;\s*$'
+        return re.match(pattern, expression) is not None
+
+    expression = input("Enter an expression: ")
+    if is_valid_expression(expression):
+        print("Valid expression")
+    else:
+        print("Invalid expression")
 
 
 print("Assignment 1")
@@ -334,4 +396,8 @@ print("--------------------------------------------")
 print("Assignment 4")
 assignment4()
 print("--------------------------------------------")
+print("Assignment 5")
+assignment5()
+print("--------------------------------------------")
 
+input()
